@@ -38,6 +38,20 @@ class InputFeeder:
             for _ in range(10):
                 _, frame=self.cap.read()
             yield frame
+    
+    def get_input_shape(self):
+        '''
+        Returns shape of the input
+        '''
+        width=None
+        height=None
+        if (self.input_type=='image'):
+            height, width, _=self.cap.shape
+        else:
+            width=int(self.cap.get(3))
+            height=int(self.cap.get(4))
+
+        return (width, height)
 
 
     def close(self):

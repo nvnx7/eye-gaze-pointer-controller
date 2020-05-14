@@ -70,10 +70,18 @@ def main():
 
     init_models()
 
+    # Invert x-direction movement of pointer for image or video media
+    x_invert = False
+    if args.input_type != "cam":
+        x_invert = True
+
     feed = InputFeeder(args.input_type, args.input)
     feed.load_data()
-
     width, height = feed.get_input_shape()
+
+    controller = MouseController("medium", "fast")
+    controller.move_to_center()
+    screen_width, screen_height = controller.get_screen_size()
 
     for frame in feed.next_batch():
         ### Extract face from frame
@@ -82,7 +90,10 @@ def main():
             break
 
         box_coords = face_detection.predict(frame)
-        print(f"Boxes: {box_coords}")
+        # continue with next frame with no face is detected
+        if (len(box_coords) == 0):
+            continue
+
         coords = box_coords[0]
         xmin = int(coords[0] * width)
         ymin = int(coords[1] * height)
@@ -91,7 +102,7 @@ def main():
         face = crop_rect(frame, (xmin, ymin, xmax, ymax))
 
         face_height, face_width, _ = face.shape
-        print(f"Face shape: ({face_width}, {face_height})")
+        # print(f"Face shape: ({face_width}, {face_height})")
 
         ### Extract left and right eye from face
         eye_landmarks = facial_landmarks_detection.predict(face)
@@ -100,17 +111,18 @@ def main():
         right_eye_pos = landmarks_pos[1]
         left_eye_coords = [left_eye_pos[0] - x_offset, left_eye_pos[1] - y_offset, left_eye_pos[0] + x_offset, left_eye_pos[1] + y_offset]
         right_eye_coords = [right_eye_pos[0] - x_offset, right_eye_pos[1] - y_offset, right_eye_pos[0] + x_offset, right_eye_pos[1] + y_offset]
+        
         # Zero out any negative values
         for i in range(4):
             left_eye_coords[i] = max(left_eye_coords[i], 0)
             right_eye_coords[i] = max(right_eye_coords[i], 0)
-        print(f"Left eye pos: {left_eye_coords}")
+        # print(f"Left eye pos: {left_eye_coords}")
         left_eye = crop_rect(face, left_eye_coords)
         right_eye = crop_rect(face, right_eye_coords)
 
-        cv2.imshow("Test", frame)
-        if cv2.waitKey(1) == 27:
-            break
+        # cv2.imshow("Test", face)
+        # if cv2.waitKey(1) == 27:
+        #     break
 
         ### Extract yaw, pitch and roll angles from face
         head_pose_angles = head_pose_estimation.predict(face)
@@ -118,8 +130,11 @@ def main():
         ### Extract gaze vector given both eyes and angles
         gaze_vector = gaze_estimation.predict(left_eye, right_eye, head_pose_angles)
 
+        controller.move(gaze_vector[0], gaze_vector[1], x_invert)
+        cv2.imshow("Test", face)
+        cv2.waitKey()
         print(f"Gaze Vector: {gaze_vector}")
-        print("\n")
+        # print("\n")
     
     feed.close()
 

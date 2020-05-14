@@ -34,10 +34,18 @@ class InputFeeder:
         Returns the next image from either a video file or webcam.
         If input_type is 'image', then it returns the same image.
         '''
-        while True:
-            for _ in range(10):
-                _, frame=self.cap.read()
-            yield frame
+        if self.input_type=="image":
+            itr=iter([self.cap])
+            try:
+                frame=next(itr)
+                yield frame
+            except StopIteration:
+                yield None
+        else:
+            while True:
+                for _ in range(10):
+                    _, frame=self.cap.read()
+                yield frame
     
     def get_input_shape(self):
         '''

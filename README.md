@@ -104,6 +104,7 @@ Following command can be run in project root directory to execute the app:
 Arguments to `main.py`-
 - `-t`: (Required) Type of media input, `image`, `video` or `cam`.
 - `-i`: Path to input file. Not required only for `cam` type.
+- `-r`: Option to visualize the intermediate inference results from models
 
 
 ## Benchmarks

@@ -82,7 +82,7 @@ def main():
     # test_face_detection()
     # test_head_pose_estimation()
     # test_facial_landmarks_detection()
-    test_gaze_estimation()
+    # test_gaze_estimation()
 
 if __name__ == "__main__":
     main()

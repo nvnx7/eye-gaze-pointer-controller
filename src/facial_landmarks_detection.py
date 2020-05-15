@@ -24,18 +24,10 @@ class Facial_Landmarks_Detection:
     def load_model(self):
         ### Load the model 
         self.core = IECore()
-
-        ### Check for supported layers
-        supported_layers = self.core.query_network(self.network, self.device)
-        unsupported_layers = [l for l in self.network.layers.keys() if l not in supported_layers]
-        if (len(unsupported_layers) > 0):
-            print("ERROR: Unsupported layers found!")
-            exit(1)
+        self.check_model()
 
         ### Return the loaded inference plugin 
         self.exec_network = self.core.load_network(self.network, self.device)
-
-        return self.core
 
     def predict(self, image):
         p_image = self.preprocess_input(image)
@@ -49,7 +41,12 @@ class Facial_Landmarks_Detection:
         return eye_landmarks
 
     def check_model(self):
-        raise NotImplementedError
+        ### Check for supported layers
+        supported_layers = self.core.query_network(self.network, self.device)
+        unsupported_layers = [l for l in self.network.layers.keys() if l not in supported_layers]
+        if (len(unsupported_layers) > 0):
+            print("ERROR: Unsupported layers found!")
+            exit(1)
 
     def preprocess_input(self, image):
         net_input_shape = self.network.inputs[self.input_blob].shape

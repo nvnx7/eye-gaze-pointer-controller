@@ -44,15 +44,25 @@ def init_models(device="CPU"):
     global head_pose_estimation
     global gaze_estimation
 
+    print("Loading Face Detection model...", end="")
     face_detection = Face_Detection(path_face_detection, device)
-    facial_landmarks_detection = Facial_Landmarks_Detection(path_facial_landmarks_detection, device)
-    head_pose_estimation = Head_Pose_Estimation(path_head_pose_estimation, device)
-    gaze_estimation = Gaze_Estimation(path_gaze_estimation, device)
-
     face_detection.load_model()
+    print("DONE")
+
+    print("Loading Face Landmarks Detection model...", end="")
+    facial_landmarks_detection = Facial_Landmarks_Detection(path_facial_landmarks_detection, device)
     facial_landmarks_detection.load_model()
+    print("DONE")
+
+    print("Loading Head Pose Estimation model...", end="")
+    head_pose_estimation = Head_Pose_Estimation(path_head_pose_estimation, device)
     head_pose_estimation.load_model()
+    print("DONE")
+
+    print("Loading Gaze Estimation model...", end="")
+    gaze_estimation = Gaze_Estimation(path_gaze_estimation, device)
     gaze_estimation.load_model()
+    print("DONE")
 
 ### Crop rectangle from given coordinates
 def crop_rect(image, coords):

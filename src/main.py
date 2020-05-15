@@ -38,6 +38,9 @@ def build_argparser():
     parser.add_argument("-r", "--results", required=False, action="store_true", \
         help="Show intermediate model results")
 
+    parser.add_argument("-d", "--device", required=False, type=str, default="CPU", \
+        help="Set the device to run inference on (default cpu)")
+
     return parser
 
 ### Initiate & load all required models
@@ -85,7 +88,7 @@ def main():
     # Whether to show intermediate results from models
     show_results = args.results
 
-    init_models()
+    init_models(args.device)
 
     # Invert x-direction movement of pointer for image or video media
     x_invert = False

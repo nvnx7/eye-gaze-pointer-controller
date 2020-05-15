@@ -49,19 +49,31 @@ OpenVino's [Model Downloader](https://docs.openvinotoolkit.org/latest/_tools_dow
 **Note:** Specifying output directory as `models` to `downloader.py` model downloader script while running command in project root directory, file will automatically create sub-directory structure like above.
 
 ### Dependencies
-Python 3 environment with pip3 on Ubuntu 18.04 was used to develop the app.<br>
+Python 3 virtual environment with pip3 on Ubuntu 18.04 was used to develop the app.<br>
 
 Installation of following pre-requisites are required:
 - [Intel OpenVino Toolkit](https://docs.openvinotoolkit.org/latest/_docs_install_guides_installing_openvino_linux.html)
 - OpenCV 4 (Included in OpenVino Toolkit)
-- Following Python package (specified in `requirements.txt`)
+- Following direct python package dependencies (see setup)
   - Numpy
   - PyAutoGUI
-  - virtualenv
 
-Run below command install python packages from `requirements.txt`:
+To setup the project follow steps: 
+1. Install [virtualenv](https://pypi.org/project/virtualenv/)
 ```
-pip3 install -r requirements.txt
+      pip install virtualenv
+```
+2. Create a virutal environment
+```
+      virtualenv -p python3 env
+```
+3. Activate the created virtual environment
+```
+      source env/bin/activate
+```
+4. Install packages listed in `requirements.txt`
+```
+      pip3 install -r requirements.txt
 ```
 
 ## Demo

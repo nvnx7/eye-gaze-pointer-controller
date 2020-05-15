@@ -7,7 +7,7 @@ This is a fun application that makes use Intel OpenVino toolkit to run inference
 Project has following directories:
 ```
 .
-|--bin/
+|--media/
 |  |--<sample_media_files>
 |
 |--src/

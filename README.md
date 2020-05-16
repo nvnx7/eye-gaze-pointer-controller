@@ -109,7 +109,39 @@ Arguments to `main.py`-
 
 
 ## Benchmarks
-*TODO:* Include the benchmark results of running your model on multiple hardwares and multiple model precisions. Your benchmarks can include: model loading time, input/output processing time, model inference time etc.
+*TODO:* Include the benchmark results of running your model on multiple hardwares and multiple model precisions. Your benchmarks can include: model loading time, input/output processing time, model inference time etc.<br>
+Following tables show the benchmark stats for models used in the app:<br>
+1. Face Detection Model<br>
+
+|             | Load Time(ms) | Total Infernce Time (ms) | FPS(frames/s) |
+|-------------|---------------|--------------------------|---------------|
+|**FP16**     |     225       |         9276             |     64        |
+|**FP16-INT8**|     454       |         8042             |     74        |
+|**FP32**     |     229       |         11060            |     54        |
+
+2. Facial Landmarks Detection Model<br>
+
+|             | Load Time(ms) | Total Infernce Time (ms) | FPS(frames/s) |
+|-------------|---------------|--------------------------|---------------|
+|**FP16**     |      55       |          309             |  1924         |
+|**FP16-INT8**|      100      |          295             |  2017         |
+|**FP32**     |      56       |          358             |  1660         |
+
+3. Head Pose Estimation Model<br>
+
+|             | Load Time(ms) | Total Infernce Time (ms) | FPS(frames/s) |
+|-------------|---------------|--------------------------|---------------|
+|**FP16**     |      74       |           740            |     804       |
+|**FP16-INT8**|      217      |           545            |     1091      |
+|**FP32**     |      64       |           833            |     715       |
+
+4. Gaze Estimation Model<br>
+
+|             | Load Time(ms) | Total Infernce Time (ms) | FPS(frames/s) |
+|-------------|---------------|--------------------------|---------------|
+|**FP16**     |     90        |          851             |    698        |
+|**FP16-INT8**|     283       |          592             |    1005       |
+|**FP32**     |     83        |          988             |    602        |
 
 ## Results
 *TODO:* Discuss the benchmark results and explain why you are getting the results you are getting. For instance, explain why there is difference in inference time for FP32, FP16 and INT8 models.

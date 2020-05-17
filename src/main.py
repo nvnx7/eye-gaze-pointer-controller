@@ -6,8 +6,8 @@ from gaze_estimation import Gaze_Estimation
 from input_feeder import InputFeeder
 from mouse_controller import MouseController
 
+import logging as log
 from argparse import ArgumentParser
-from math import pi, sin, cos, radians
 
 import cv2
 
@@ -51,25 +51,25 @@ def init_models(device="CPU"):
     global head_pose_estimation
     global gaze_estimation
 
-    print("Loading Face Detection model...", end="")
+    log.info("Loading Face Detection model...")
     face_detection = Face_Detection(path_face_detection, device)
     face_detection.load_model()
-    print("DONE")
+    log.info("DONE\n")
 
-    print("Loading Face Landmarks Detection model...", end="")
+    log.info("Loading Face Landmarks Detection model...")
     facial_landmarks_detection = Facial_Landmarks_Detection(path_facial_landmarks_detection, device)
     facial_landmarks_detection.load_model()
-    print("DONE")
+    log.info("DONE\n")
 
-    print("Loading Head Pose Estimation model...", end="")
+    log.info("Loading Head Pose Estimation model...")
     head_pose_estimation = Head_Pose_Estimation(path_head_pose_estimation, device)
     head_pose_estimation.load_model()
-    print("DONE")
+    log.info("DONE\n")
 
-    print("Loading Gaze Estimation model...", end="")
+    log.info("Loading Gaze Estimation model...")
     gaze_estimation = Gaze_Estimation(path_gaze_estimation, device)
     gaze_estimation.load_model()
-    print("DONE")
+    log.info("DONE\n")
 
 ### Crop rectangle from given coordinates
 def crop_rect(image, coords):
@@ -83,7 +83,11 @@ def crop_rect(image, coords):
     return crop
 
 def main():
+    # Get command line arguments
     args = build_argparser().parse_args()
+
+    # Set log level to INFO
+    log.basicConfig(level = log.INFO, format = '%(levelname)s: %(message)s')
 
     # Whether to show intermediate results from models
     show_results = args.results
@@ -100,7 +104,7 @@ def main():
     for frame in feed.next_batch():
         ### Extract face from frame
         if (frame is None):
-            print("INFO: Empty frame found. Ending stream now.")
+            log.info("Empty frame found. Ending stream now.")
             break
 
         box_coords = face_detection.predict(frame)
@@ -159,17 +163,18 @@ def main():
             cv2.arrowedLine(frame, pos_left_eye, coord_gaze_left_eye, (0, 0, 255), 2)
             cv2.arrowedLine(frame, pos_right_eye, coord_gaze_right_eye, (0, 0, 255), 2)
 
-            print("\n")
-            print(f"Face box coords: ({xmin}, {ymin}), ({xmax}, {ymax})")
-            print(f"Left Eye coords: {pos_left_eye}, Right Eye coords: {pos_right_eye}")
-            print(f"Head pose angles (yaw, pitch, roll): {head_pose_angles}")
-            print(f"Gaze Vector: {gaze_vector}")
+            log.info(f"Face box coords: ({xmin}, {ymin}), ({xmax}, {ymax})")
+            log.info(f"Left Eye coords: {pos_left_eye}, Right Eye coords: {pos_right_eye}")
+            log.info(f"Head pose angles: {head_pose_angles}")
+            log.info(f"Gaze Vector: {gaze_vector}\n")
 
             cv2.imshow("Results", frame)
+            # Stop if Esc key is pressed
             if cv2.waitKey(1) == 27:
+                log.warning("Esc key pressed, inference interrupted!")
                 break
 
-        controller.move(gaze_vector[0], gaze_vector[1])
+        # controller.move(gaze_vector[0], gaze_vector[1])
 
     feed.close()
     cv2.destroyAllWindows()

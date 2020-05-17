@@ -19,6 +19,7 @@ Project has following directories:
 |  |--mouse_controller.py
 |  |--test_models.py
 |  |--main.py
+|  |--benchmark.py
 |
 |--requirements.txt
 |--download_models.sh
@@ -105,7 +106,7 @@ Arguments to `main.py`-
 
 
 ## Benchmarks
-*TODO:* Include the benchmark results of running your model on multiple hardwares and multiple model precisions. Your benchmarks can include: model loading time, input/output processing time, model inference time etc.<br>
+
 Following tables show the benchmark stats for models used in the app:<br>
 1. Face Detection Model<br>
 
@@ -140,7 +141,13 @@ Following tables show the benchmark stats for models used in the app:<br>
 |**FP32**     |     83        |          988             |    602        |
 
 ## Results
-*TODO:* Discuss the benchmark results and explain why you are getting the results you are getting. For instance, explain why there is difference in inference time for FP32, FP16 and INT8 models.
+
+General trend for the benchmarks of all models hints that models of pricision FP16-INT8 has fastest inference timings. And FP32 is slowest (though, fastest model loading times) in inference. FP16 stands intermediate between these two precisions in stats.<br>
+
+Each individual model (of multiple precisions) is derived/converted from same saved model of a DL framework. However, optimization during conversion is done differently to get a specific precision of model. For precision (or data type) altering, **Quantization** technique is used. Quantization trades better inference speed and lower model size & memory consumption with the accuracy. This is because parameters stored are down sampled from 32 bit floating point values to 16 bit floats or 8 bit ints, for example. And 32 bit floats take up more storage than 16 bit floats, which in turn takes more storage than 8 bit ints. Operations on these data types follow the same trend. Models can be quantized as far as accuracy is acceptable for use case.<br>
+
+FP16-INT8 precision model's parameters are quantized more than FP16 ones, hence former has faster inference speed. While FP32 is intact with it's 32 bit float type of parameter values and are slower.
+
 
 ## Stand Out Suggestions
 This is where you can provide information about the stand out suggestions that you have attempted.

@@ -12,10 +12,10 @@ from math import pi, sin, cos, radians
 import cv2
 
 ### Model IR paths
-path_face_detection = "models/intel/face-detection-adas-binary-0001/FP32/face-detection-adas-binary-0001.xml"
-path_facial_landmarks_detection = "models/intel/landmarks-regression-retail-0009/FP16/landmarks-regression-retail-0009.xml"
-path_head_pose_estimation = "models/intel/head-pose-estimation-adas-0001/FP16/head-pose-estimation-adas-0001.xml"
-path_gaze_estimation = "models/intel/gaze-estimation-adas-0002/FP16/gaze-estimation-adas-0002.xml"
+path_face_detection = "models/intel/face-detection-adas-0001/FP16-INT8/face-detection-adas-0001.xml"
+path_facial_landmarks_detection = "models/intel/landmarks-regression-retail-0009/FP16-INT8/landmarks-regression-retail-0009.xml"
+path_head_pose_estimation = "models/intel/head-pose-estimation-adas-0001/FP16-INT8/head-pose-estimation-adas-0001.xml"
+path_gaze_estimation = "models/intel/gaze-estimation-adas-0002/FP16-INT8/gaze-estimation-adas-0002.xml"
 
 ### Model global variables
 face_detection = None
@@ -172,11 +172,11 @@ def main():
             print(f"Gaze Vector: {gaze_vector}")
 
             cv2.imshow("Results", frame)
-            cv2.waitKey()
-            # if cv2.waitKey(1) == 27:
-            #     break
+            # cv2.waitKey()
+            if cv2.waitKey(1) == 27:
+                break
 
-        controller.move(gaze_vector[0], gaze_vector[1], x_invert)
+        # controller.move(gaze_vector[0], gaze_vector[1], x_invert)
 
     
     feed.close()

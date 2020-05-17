@@ -12,9 +12,6 @@ do
     fi
 done
 
-echo $ALL
-echo $DIR
-
 if [ "$ALL" = true ]; then
     python3 $DIR/deployment_tools/tools/model_downloader/downloader.py --name face-detection-adas-0001 -o models
     python3 $DIR/deployment_tools/tools/model_downloader/downloader.py --name landmarks-regression-retail-0009 -o models

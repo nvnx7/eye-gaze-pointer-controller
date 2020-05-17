@@ -96,7 +96,6 @@ def main():
 
     controller = MouseController("medium", "fast")
     controller.move_to_center()
-    screen_width, screen_height = controller.get_screen_size()
 
     for frame in feed.next_batch():
         ### Extract face from frame
@@ -172,8 +171,8 @@ def main():
 
         controller.move(gaze_vector[0], gaze_vector[1])
 
-    
     feed.close()
+    cv2.destroyAllWindows()
 
 if __name__ == "__main__":
     main()

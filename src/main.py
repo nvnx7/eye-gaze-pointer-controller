@@ -8,6 +8,7 @@ from mouse_controller import MouseController
 
 import logging as log
 from argparse import ArgumentParser
+import mimetypes
 
 import cv2
 
@@ -71,6 +72,36 @@ def init_models(device="CPU"):
     gaze_estimation.load_model()
     log.info("DONE\n")
 
+### Validate input file provided
+def validate_input(input_type, input_path):
+    valid_types = ["image", "video", "cam"]
+    if input_type.lower() not in valid_types:
+        log.error(f"Invalid input type specified. Valid types are {valid_types}.")
+        exit(1)
+
+    if input_type == "cam":
+        return
+
+    media_type = get_media_type(input_path)
+    if (media_type is None) or (media_type.lower() not in valid_types):
+        log.error("Invalid input file provided! Specify a valid video or image file.")
+        exit(1)
+
+    if media_type != input_type:
+        log.error("Input type specified does not match with type of input file!")
+        exit(1)
+
+
+### Get the type of media from path of file
+def get_media_type(file_path):
+    mimetypes.init()
+    mime_type = mimetypes.guess_type(file_path)[0]
+    if mime_type is None:
+        return None
+
+    media_type = mime_type.split("/")[0]
+    return media_type
+
 ### Crop rectangle from given coordinates
 def crop_rect(image, coords):
     xmin = coords[0]
@@ -88,6 +119,8 @@ def main():
 
     # Set log level to INFO
     log.basicConfig(level = log.INFO, format = '%(levelname)s: %(message)s')
+
+    validate_input(args.input_type, args.input)
 
     # Whether to show intermediate results from models
     show_results = args.results
@@ -174,7 +207,7 @@ def main():
                 log.warning("Esc key pressed, inference interrupted!")
                 break
 
-        # controller.move(gaze_vector[0], gaze_vector[1])
+        controller.move(gaze_vector[0], gaze_vector[1])
 
     feed.close()
     cv2.destroyAllWindows()

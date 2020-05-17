@@ -89,6 +89,7 @@ Code base is moduler with each module having seperate concerns:<br>
 - `mouse_controller.py`: Convenient class for controlling mouse pointer.
 - `test_models.py`: Script written for purpose of individual testing of models for correct output. Appropriate function can be run to check working of model.
 - `main.py`: Script, which is the starting point for the app.
+- `benchmark.py`: Script used to benchmark the models.
 - `download_models.sh`: Bash script to download all required models from model zoo automatically.
 
 Below image demonstrates pipeline of code:<br>

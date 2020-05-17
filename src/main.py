@@ -90,11 +90,6 @@ def main():
 
     init_models(args.device)
 
-    # Invert x-direction movement of pointer for image or video media
-    x_invert = False
-    if args.input_type != "cam":
-        x_invert = True
-
     feed = InputFeeder(args.input_type, args.input)
     feed.load_data()
     width, height = feed.get_input_shape()
@@ -172,11 +167,10 @@ def main():
             print(f"Gaze Vector: {gaze_vector}")
 
             cv2.imshow("Results", frame)
-            # cv2.waitKey()
             if cv2.waitKey(1) == 27:
                 break
 
-        # controller.move(gaze_vector[0], gaze_vector[1], x_invert)
+        controller.move(gaze_vector[0], gaze_vector[1])
 
     
     feed.close()

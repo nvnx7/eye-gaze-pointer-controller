@@ -25,8 +25,5 @@ class MouseController:
         size=self.get_screen_size()
         pyautogui.moveTo(int(size[0]/2), int(size[1]/2))
 
-    def move(self, x, y, x_invert):
-        if x_invert:
-            pyautogui.moveRel(-1*x*self.precision, -1*y*self.precision, duration=self.speed)
-        else:
-            pyautogui.moveRel(x*self.precision, -1*y*self.precision, duration=self.speed)
+    def move(self, x, y):
+        pyautogui.moveRel(x*self.precision, -1*y*self.precision, duration=self.speed)

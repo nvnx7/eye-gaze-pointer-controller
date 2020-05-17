@@ -20,33 +20,20 @@ Project has following directories:
 |  |--test_models.py
 |  |--main.py
 |
-|--models/intel/
-|        |--face-detection-adas-binary-0001/FP32
-|        |                                 |--face-detection-adas-binary-0001.xml
-|        |                                 |--face-detection-adas-binary-0001.bin
-|        |--landmarks-regression-retail-0009/FP16
-|        |                                 |--landmarks-regression-retail-0009.xml
-|        |                                 |--landmarks-regression-retail-0009.bin
-|        |--head-pose-estimation-adas-0001/FP16
-|        |                                 |--head-pose-estimation-adas-0001.xml
-|        |                                 |--head-pose-estimation-adas-0001.bin
-|        |--gaze-estimation-adas-0002/FP16
-|                                          |--gaze-estimation-adas-0002.xml
-|                                          |--gaze-estimation-adas-0002.bin
-|
 |--requirements.txt
+|--download_models.sh
 ```
 
 Models used for making inference are IRs from OpenVino Model Zoo.
 These can be found here:
-* [face-detection-adas-binary-0001](https://docs.openvinotoolkit.org/latest/_models_intel_face_detection_adas_binary_0001_description_face_detection_adas_binary_0001.html)
+* [face-detection-adas-0001](https://docs.openvinotoolkit.org/latest/_models_intel_face_detection_adas_0001_description_face_detection_adas_0001.html)
 * [landmarks-regression-retail-0009](https://docs.openvinotoolkit.org/latest/_models_intel_landmarks_regression_retail_0009_description_landmarks_regression_retail_0009.html)
 * [head-pose-estimation-adas-0001](https://docs.openvinotoolkit.org/latest/_models_intel_head_pose_estimation_adas_0001_description_head_pose_estimation_adas_0001.html)
 * [gaze-estimation-adas-0002](https://docs.openvinotoolkit.org/latest/_models_intel_gaze_estimation_adas_0002_description_gaze_estimation_adas_0002.html)
 
 OpenVino's [Model Downloader](https://docs.openvinotoolkit.org/latest/_tools_downloader_README.html) was used to download all the models.<br>
 
-**Note:** Specifying output directory as `models` to `downloader.py` model downloader script while running command in project root directory, file will automatically create sub-directory structure like above.
+**Note:** If not using `download_models.sh` script specify the output directory as `models` to `downloader.py` model downloader script of openvino, while running command in project root directory, so that paths used in `main.py` remain correct.
 
 ### Dependencies
 Python 3 virtual environment with pip3 on Ubuntu 18.04 was used to develop the app.<br>
@@ -58,7 +45,7 @@ Installation of following pre-requisites are required:
   - Numpy
   - PyAutoGUI
 
-To setup the project follow steps: 
+To setup the project follow steps in project root directory: 
 1. Install [virtualenv](https://pypi.org/project/virtualenv/)
 ```
       pip install virtualenv
@@ -75,6 +62,14 @@ To setup the project follow steps:
 ```
       pip3 install -r requirements.txt
 ```
+
+5. Then download all required models for the app by running:
+```
+      ./download_models.sh
+```
+`download_models.sh` can accepts following args and options:<br>
+- `-a` option (OPTIONAL): Add this option to download models of all precisions instead of specific precisions used in app.
+- `<path>` argument (OPTIONAL): Specify path of OpenVino installation directory as `./download_models.sh <path>`, if it is different from default value of `/opt/intel/openvino`.
 
 ## Demo
 After installing all the required dependencies and model files with correct precisions, run following command for a quick demo:
@@ -93,6 +88,7 @@ Code base is moduler with each module having seperate concerns:<br>
 - `mouse_controller.py`: Convenient class for controlling mouse pointer.
 - `test_models.py`: Script written for purpose of individual testing of models for correct output. Appropriate function can be run to check working of model.
 - `main.py`: Script, which is the starting point for the app.
+- `download_models.sh`: Bash script to download all required models from model zoo automatically.
 
 Below image demonstrates pipeline of code:<br>
 ![pipeline](pipeline.png)

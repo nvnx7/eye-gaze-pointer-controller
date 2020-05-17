@@ -101,16 +101,16 @@ Following command can be run in project root directory to execute the app:
   ```
 Arguments to `main.py`-
 - `-t`: (Required) Type of media input, `image`, `video` or `cam`.
-- `-i`: Path to input file. Not required only for `cam` type.
+- `-i`: Path to input file. It will be ignored if type of media input specified is `cam`.
 - `-r`: Option to visualize the intermediate inference results from models.
 - `-d`: Option to select device to run inference on.
 
 
 ## Benchmarks
-Benchmark was done on Intel Core i5-8300H CPU. Following tables show the benchmark stats for models used in the app:<br>
+Benchmark was done on Intel Core i5-8300H CPU with inputs from `demo.mp4` file present in `media` directory. Following tables show the benchmark stats for models used in the app:<br>
 1. Face Detection Model<br>
 
-|             | Load Time(ms) | Total Infernce Time (ms) | FPS(frames/s) |
+|             | Load Time(ms) | Total Infernce Time(ms)  | FPS(frames/s) |
 |-------------|---------------|--------------------------|---------------|
 |**FP16**     |     225       |         9276             |     64        |
 |**FP16-INT8**|     454       |         8042             |     74        |
@@ -118,7 +118,7 @@ Benchmark was done on Intel Core i5-8300H CPU. Following tables show the benchma
 
 2. Facial Landmarks Detection Model<br>
 
-|             | Load Time(ms) | Total Infernce Time (ms) | FPS(frames/s) |
+|             | Load Time(ms) | Total Infernce Time(ms)  | FPS(frames/s) |
 |-------------|---------------|--------------------------|---------------|
 |**FP16**     |      55       |          309             |  1924         |
 |**FP16-INT8**|      100      |          295             |  2017         |
@@ -126,7 +126,7 @@ Benchmark was done on Intel Core i5-8300H CPU. Following tables show the benchma
 
 3. Head Pose Estimation Model<br>
 
-|             | Load Time(ms) | Total Infernce Time (ms) | FPS(frames/s) |
+|             | Load Time(ms) | Total Infernce Time(ms)  | FPS(frames/s) |
 |-------------|---------------|--------------------------|---------------|
 |**FP16**     |      74       |           740            |     804       |
 |**FP16-INT8**|      217      |           545            |     1091      |

@@ -106,8 +106,7 @@ Arguments to `main.py`-
 
 
 ## Benchmarks
-
-Following tables show the benchmark stats for models used in the app:<br>
+Benchmark was done on Intel Core i5-8300H CPU. Following tables show the benchmark stats for models used in the app:<br>
 1. Face Detection Model<br>
 
 |             | Load Time(ms) | Total Infernce Time (ms) | FPS(frames/s) |
@@ -148,12 +147,5 @@ Each individual model (of multiple precisions) is derived/converted from same sa
 
 FP16-INT8 precision model's parameters are quantized more than FP16 ones, hence former has faster inference speed. While FP32 is intact with it's 32 bit float type of parameter values and are slower.
 
-
-## Stand Out Suggestions
-This is where you can provide information about the stand out suggestions that you have attempted.
-
-### Async Inference
-If you have used Async Inference in your code, benchmark the results and explain its effects on power and performance of your project.
-
 ### Edge Cases
-There will be certain situations that will break your inference flow. For instance, lighting changes or multiple people in the frame. Explain some of the edge cases you encountered in your project and how you solved them to make your project more robust.
+Sometimes if Face Detection model is unable to detect box coordinates for face, nothing is done or fed to subsequent models. Instead app continues to try to detect face in next frame and so on.

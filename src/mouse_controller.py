@@ -5,7 +5,6 @@ It uses the pyautogui library. You can set the precision for mouse movement
 precision_dict and speed_dict.
 Calling the move function with the x and y output of the gaze estimation model
 will move the pointer.
-This class is provided to help get you started; you can choose whether you want to use it or create your own from scratch.
 '''
 import pyautogui
 
